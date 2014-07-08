@@ -1,0 +1,13 @@
+cls
+#Указываем папку, где лежат файлы
+$path_where = "\\fs-03\sql_pd-db-02\daily\"
+#Куда кладем
+$path_to = "d:\FTP\SQL\pd-cls-db-102\"
+#Ключи запуска Robocopy
+$key = "/R:30 /Z /V /XO"
+#формат даты
+$Date=Get-Date -DisplayHint DateTime -Format yyyymmdd_hh-mm-ss
+#Ищем последний СОЗДАННЫЙ
+$file = Get-ChildItem -Path $path_where | Sort CreationTime -desc | Select-Object FullName, Name, CreationTime -First 1
+$file.Name
+robocopy  $path_where $path_to $file.name /R:30 /Z /V /XO /LOG:C:\temp\robocopy_1C_$Date.LOG
